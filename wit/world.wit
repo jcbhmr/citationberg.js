@@ -1,0 +1,144 @@
+package typst-community:citationberg;
+
+interface citationberg {
+  resource affixes {
+    constructor(
+      prefix: option<string>,
+      suffix: option<string>,
+    );
+    prefix: func() -> option<string>;
+    set-prefix: func(v: option<string>);
+    suffix: func() -> option<string>;
+    set-suffix: func(v: option<string>);
+
+    // clone: func() -> affixes;
+    // clone-from: func(source: borrow<affixes>);
+
+    // fmt: func(f: borrow<fmt.formatter>) -> fmt.result;
+
+    // default: static func() -> affixes;
+
+    // deserialize: static func(deserializer: serde.de.deserializer) -> result<affixes, error>;
+
+    // hash: func(state: borrow<>);
+    // hash-slice: static func(data: borrow<list<affixes>>, state: borrow<>);
+
+    // eq: func(other: borrow<affixes>) -> bool;
+    // ne: func(other: borrow<affixes>) -> bool;
+
+    // serialize: func(serializer: serde.se.serializer) -> result<>;
+  }
+
+  // resource bibliography {
+  //   constructor(
+  //     sort: option<sort>,
+  //     layout: layout,
+  //     hanging-indent: bool,
+  //     second-field-align: option<second-field-align>,
+  //     line-spacing: s16,
+  //     entry-spacing: s16,
+  //     subsequent-author-substitute: option<string>,
+  //     subsequent-author-substitute-rule: option<subsequent-author-substitute-rule>,
+  //     name-options: option<inheritable-name-options>,
+  //   );
+  //   sort: func() -> option<sort>;
+  //   set-sort: func(v: option<sort>);
+  //   layout: func() -> layout;
+  //   set-layout: func(v: layout);
+  //   hanging-indent: func() -> bool;
+  //   set-hanging-indent: func(v: bool);
+  //   second-field-align: func() -> option<second-field-align>;
+  //   set-second-field-align: func(v: option<second-field-align>);
+  //   line-spacing: func() -> s16;
+  //   set-line-spacing: func(v: s16);
+  //   entry-spacing: func() -> s16;
+  //   set-entry-spacing: func(v: s16);
+  //   subsequent-author-substitute: func() -> option<string>;
+  //   set-subsequent-author-substitute: func(v: option<string>);
+  //   subsequent-author-substitute-rule: func() -> option<subsequent-author-substitute-rule>;
+  //   set-subsequent-author-substitute-rule: func(v: option<subsequent-author-substitute-rule>);
+  //   name-options: func() -> option<inheritable-name-options>;
+  //   set-name-options: func(v: option<inheritable-name-options>);
+
+  //   with-layout: static func(layout: layout) -> bibliography;
+  // }
+
+  // resource choose {
+  //   constructor(
+  //     if: to-do,
+  //     else-if: list<to-do>,
+  //     otherwise: option<to-do>,
+  //     delimiter: option<string>,
+  //   );
+  //   if: to-do,
+  //   else-if: list<to-do>,
+  //   otherwise: option<to-do>,
+  //   delimiter: option<string>,
+  // }
+  // choose-branches: func(s: choose) -> list<to-do>;
+  // choose-find-variable-element: func(s: choose, variable: to-do, macros: list<to-do>) -> option<to-do>;
+
+  // record choose-branch {
+  //   disambiguate: option<bool>,
+  //   is-numeric: option<list<to-do>>,
+  //   is-uncertain-date: option<list<to-do>>,
+  //   locator: option<list<to-do>>,
+  //   position: option<list<to-do>>,
+  //   %type: option<list<to-do>>,
+  //   variable: option<list<to-do>>,
+  //   match: to-do,
+  //   children: list<to-do>,
+  // }
+  // choose-branch-test: func(s: choose-branch) -> option<to-do>;
+
+  // resource citation {
+  //   constructor(
+  //     sort: option<to-do>,
+  //     layout: to-do,
+  //     disambiguate-add-givenname: bool,
+  //     givenname-disambiguation-rule: to-do,
+  //     disambiguate-add-names: bool,
+  //     disambiguate-add-year-suffix: bool,
+  //     cite-group-delimiter: option<string>,
+  //     collapse: option<to-do>,
+  //     year-suffix-delimiter: option<string>,
+  //     after-collapse-delimiter: option<string>,
+  //     near-note-distance: u32,
+  //     name-options: to-do,
+  //   );
+  //   sort: func() -> option<to-do>;
+  //   set-sort: func(v: option<to-do>);
+  //   layout: func() -> to-do;
+  //   set-layout: func(v: to-do);
+  //   disambiguate-add-givenname: func() -> bool;
+  //   set-disambiguate-add-givenname: func(v: bool);
+  //   givenname-disambiguation-rule: func() -> borrow<to-do>;
+  //   set-givenname-disambiguation-rule: func(v: to-do);
+  //   disambiguate-add-names: func() -> bool;
+  //   set-disambiguate-add-names: func(v: bool);
+  //   disambiguate-add-year-suffix: func() -> bool;
+  //   set-disambiguate-add-year-suffix: func(v: bool);
+  //   cite-group-delimiter: func() -> option<string>;
+  //   set-cite-group-delimiter: func(v: option<string>);
+  //   collapse: func() -> option<to-do>;
+  //   set-collapse: func(v: option<to-do>);
+  //   year-suffix-delimiter: func() -> option<string>;
+  //   set-year-suffix-delimiter: func(v: option<string>);
+  //   after-collapse-delimiter: func() -> option<string>;
+  //   set-after-collapse-delimiter: func(v: option<string>);
+  //   near-note-distance: func() -> u32;
+  //   set-near-note-distance: func(v: u32);
+  //   name-options: func() -> to-do;
+  //   set-name-options: func(v: to-do);
+
+  //   default-cite-group-delimiter: static func() -> string;
+  //   with-layout: static func(layout: to-do) -> citation;
+  //   get-year-suffix-delimiter: func() -> string;
+  //   get-after-collapse-delimiter: func() -> string;
+  //   default-near-note-distance: static func() -> u32;
+  // }
+}
+
+world host {
+  export citationberg;
+}
