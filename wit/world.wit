@@ -1,144 +1,916 @@
 package typst-community:citationberg;
 
-interface citationberg {
-  resource affixes {
-    constructor(
-      prefix: option<string>,
-      suffix: option<string>,
-    );
-    prefix: func() -> option<string>;
-    set-prefix: func(v: option<string>);
-    suffix: func() -> option<string>;
-    set-suffix: func(v: option<string>);
-
-    // clone: func() -> affixes;
-    // clone-from: func(source: borrow<affixes>);
-
-    // fmt: func(f: borrow<fmt.formatter>) -> fmt.result;
-
-    // default: static func() -> affixes;
-
-    // deserialize: static func(deserializer: serde.de.deserializer) -> result<affixes, error>;
-
-    // hash: func(state: borrow<>);
-    // hash-slice: static func(data: borrow<list<affixes>>, state: borrow<>);
-
-    // eq: func(other: borrow<affixes>) -> bool;
-    // ne: func(other: borrow<affixes>) -> bool;
-
-    // serialize: func(serializer: serde.se.serializer) -> result<>;
+interface citationberg-taxonomy {
+  enum date-variable {
+    accessed,
+    available-date,
+    event-date,
+    issued,
+    original-date,
+    submitted,
   }
 
-  // resource bibliography {
-  //   constructor(
-  //     sort: option<sort>,
-  //     layout: layout,
-  //     hanging-indent: bool,
-  //     second-field-align: option<second-field-align>,
-  //     line-spacing: s16,
-  //     entry-spacing: s16,
-  //     subsequent-author-substitute: option<string>,
-  //     subsequent-author-substitute-rule: option<subsequent-author-substitute-rule>,
-  //     name-options: option<inheritable-name-options>,
-  //   );
-  //   sort: func() -> option<sort>;
-  //   set-sort: func(v: option<sort>);
-  //   layout: func() -> layout;
-  //   set-layout: func(v: layout);
-  //   hanging-indent: func() -> bool;
-  //   set-hanging-indent: func(v: bool);
-  //   second-field-align: func() -> option<second-field-align>;
-  //   set-second-field-align: func(v: option<second-field-align>);
-  //   line-spacing: func() -> s16;
-  //   set-line-spacing: func(v: s16);
-  //   entry-spacing: func() -> s16;
-  //   set-entry-spacing: func(v: s16);
-  //   subsequent-author-substitute: func() -> option<string>;
-  //   set-subsequent-author-substitute: func(v: option<string>);
-  //   subsequent-author-substitute-rule: func() -> option<subsequent-author-substitute-rule>;
-  //   set-subsequent-author-substitute-rule: func(v: option<subsequent-author-substitute-rule>);
-  //   name-options: func() -> option<inheritable-name-options>;
-  //   set-name-options: func(v: option<inheritable-name-options>);
+  enum kind {
+    article,
+    article-journal,
+    article-magazine,
+    article-newspaper,
+    bill,
+    book,
+    broadcast,
+    chapter,
+    classic,
+    collection,
+    dataset,
+    document,
+    entry,
+    entry-dictionary,
+    entry-encyclopedia,
+    event,
+    figure,
+    graphic,
+    hearing,
+    interview,
+    legal-case,
+    legislation,
+    manuscript,
+    map,
+    motion-picture,
+    musical-score,
+    pamphlet,
+    paper-conference,
+    patent,
+    performance,
+    periodical,
+    personal-communication,
+    post,
+    post-weblog,
+    regulation,
+    report,
+    review,
+    review-book,
+    software,
+    song,
+    speech,
+    standard,
+    thesis,
+    treaty,
+    webpage,
+  }
 
-  //   with-layout: static func(layout: layout) -> bibliography;
-  // }
+  enum locator {
+    act,
+    appendix,
+    article-locator,
+    book,
+    canon,
+    chapter,
+    column,
+    elocation,
+    equation,
+    figure,
+    folio,
+    issue,
+    line,
+    note,
+    opus,
+    page,
+    paragraph,
+    part,
+    rule,
+    scene,
+    section,
+    sub-verbo,
+    supplement,
+    table,
+    timestamp,
+    title,
+    title-locator,
+    verse,
+    volume,
+    custom
+  }
 
-  // resource choose {
-  //   constructor(
-  //     if: to-do,
-  //     else-if: list<to-do>,
-  //     otherwise: option<to-do>,
-  //     delimiter: option<string>,
-  //   );
-  //   if: to-do,
-  //   else-if: list<to-do>,
-  //   otherwise: option<to-do>,
-  //   delimiter: option<string>,
-  // }
-  // choose-branches: func(s: choose) -> list<to-do>;
-  // choose-find-variable-element: func(s: choose, variable: to-do, macros: list<to-do>) -> option<to-do>;
+  enum name-variable {
+    author,
+    chair,
+    collection-editor,
+    compiler,
+    composer,
+    container-author,
+    contributor,
+    curator,
+    director,
+    editor,
+    editorial-director,
+    editor-translator,
+    executive-producer,
+    guest,
+    host,
+    illustrator,
+    interviewer,
+    narrator,
+    organizer,
+    original-author,
+    performer,
+    producer,
+    recipient,
+    reviewed-author,
+    script-writer,
+    series-creator,
+    translator
+  }
 
-  // record choose-branch {
-  //   disambiguate: option<bool>,
-  //   is-numeric: option<list<to-do>>,
-  //   is-uncertain-date: option<list<to-do>>,
-  //   locator: option<list<to-do>>,
-  //   position: option<list<to-do>>,
-  //   %type: option<list<to-do>>,
-  //   variable: option<list<to-do>>,
-  //   match: to-do,
-  //   children: list<to-do>,
-  // }
-  // choose-branch-test: func(s: choose-branch) -> option<to-do>;
+  enum number-variable {
+    chapter-number,
+    citation-number,
+    collection-number,
+    edition,
+    first-reference-note-number,
+    issue,
+    locator,
+    number,
+    number-of-pages,
+    number-of-volumes,
+    page,
+    page-first,
+    part-number,
+    printing-number,
+    section,
+    supplement-number,
+    version,
+    volume
+  }
+  number-variable-is-number-of-variable: func(s: number-variable) -> bool;
 
-  // resource citation {
-  //   constructor(
-  //     sort: option<to-do>,
-  //     layout: to-do,
-  //     disambiguate-add-givenname: bool,
-  //     givenname-disambiguation-rule: to-do,
-  //     disambiguate-add-names: bool,
-  //     disambiguate-add-year-suffix: bool,
-  //     cite-group-delimiter: option<string>,
-  //     collapse: option<to-do>,
-  //     year-suffix-delimiter: option<string>,
-  //     after-collapse-delimiter: option<string>,
-  //     near-note-distance: u32,
-  //     name-options: to-do,
-  //   );
-  //   sort: func() -> option<to-do>;
-  //   set-sort: func(v: option<to-do>);
-  //   layout: func() -> to-do;
-  //   set-layout: func(v: to-do);
-  //   disambiguate-add-givenname: func() -> bool;
-  //   set-disambiguate-add-givenname: func(v: bool);
-  //   givenname-disambiguation-rule: func() -> borrow<to-do>;
-  //   set-givenname-disambiguation-rule: func(v: to-do);
-  //   disambiguate-add-names: func() -> bool;
-  //   set-disambiguate-add-names: func(v: bool);
-  //   disambiguate-add-year-suffix: func() -> bool;
-  //   set-disambiguate-add-year-suffix: func(v: bool);
-  //   cite-group-delimiter: func() -> option<string>;
-  //   set-cite-group-delimiter: func(v: option<string>);
-  //   collapse: func() -> option<to-do>;
-  //   set-collapse: func(v: option<to-do>);
-  //   year-suffix-delimiter: func() -> option<string>;
-  //   set-year-suffix-delimiter: func(v: option<string>);
-  //   after-collapse-delimiter: func() -> option<string>;
-  //   set-after-collapse-delimiter: func(v: option<string>);
-  //   near-note-distance: func() -> u32;
-  //   set-near-note-distance: func(v: u32);
-  //   name-options: func() -> to-do;
-  //   set-name-options: func(v: to-do);
+  variant other-term {
+    month01,
+    month02,
+    month03,
+    month04,
+    month05,
+    month06,
+    month07,
+    month08,
+    month09,
+    month10,
+    month11,
+    month12,
+    ordinal,
+    ordinal-n(u8),
+    long-ordinal(u8),
+    open-quote,
+    close-quote,
+    open-inner-quote,
+    close-inner-quote,
+    page-range-delimiter,
+    colon,
+    comma,
+    semicolon,
+    season01,
+    season02,
+    season03,
+    season04,
+    anthropology,
+    astronomy,
+    biology,
+    botany,
+    chemistry,
+    engineering,
+    generic-base,
+    geography,
+    geology,
+    history,
+    humanities,
+    literature,
+    math,
+    medicine,
+    philosophy,
+    physics,
+    psychology,
+    sociology,
+    science,
+    political-science,
+    social-science,
+    theology,
+    zoology,
+    accessed,
+    ad,
+    advance-online-publication,
+    album,
+    and,
+    and-others,
+    anonymous,
+    at,
+    audio-recording,
+    available-at,
+    bc,
+    bce,
+    by,
+    ce,
+    circa,
+    cited,
+    et-al,
+    film,
+    forthcoming,
+    %from,
+    henceforth,
+    ibid,
+    in,
+    in-press,
+    internet,
+    interview,
+    letter,
+    loc-cit,
+    no-date,
+    no-place,
+    no-publisher,
+    on,
+    online,
+    op-cit,
+    original-work-published,
+    personal-communication,
+    podcast,
+    podcast-episode,
+    preprint,
+    presented-at,
+    radio-broadcast,
+    radio-series,
+    radio-series-episode,
+    reference,
+    retrieved,
+    review-of,
+    scale,
+    special-issue,
+    special-section,
+    television-broadcast,
+    television-series,
+    television-series-episode,
+    video,
+    working-paper
+  }
+  other-term-is-n-ordinal: func(s: other-term) -> bool;
+  other-term-is-ordinal: func(s: other-term) -> bool;
+  other-term-month: func(i: u8) -> option<other-term>;
+  other-term-season: func(i: u8) -> option<other-term>;
 
-  //   default-cite-group-delimiter: static func() -> string;
-  //   with-layout: static func(layout: to-do) -> citation;
-  //   get-year-suffix-delimiter: func() -> string;
-  //   get-after-collapse-delimiter: func() -> string;
-  //   default-near-note-distance: static func() -> u32;
-  // }
+  enum standard-variable {
+    abstract,
+    annote,
+    archive,
+    archive-collection,
+    archive-location,
+    archive-place,
+    authority,
+    call-number,
+    citation-key,
+    citation-label,
+    collection-title,
+    container-title,
+    container-title-short,
+    dimensions,
+    division,
+    doi,
+    event,
+    event-title,
+    event-place,
+    genre,
+    isbn,
+    issn,
+    jurisdiction,
+    keyword,
+    language,
+    license,
+    medium,
+    note,
+    original-publisher,
+    original-publisher-place,
+    original-title,
+    part-title,
+    pmcid,
+    pmid,
+    publisher,
+    publisher-place,
+    references,
+    reviewed-genre,
+    reviewed-title,
+    scale,
+    source,
+    status,
+    title,
+    title-short,
+    url,
+    volume-title,
+    year-suffix
+  }
+
+  variant term {
+    kind(kind),
+    name-variable(name-variable),
+    number-variable(number-variable),
+    locator(locator),
+    other(other-term),
+  }
+  term-term-fallback: func(s: term) -> term;
+  term-is-ordinal: func(s: term) -> bool;
+  term-is-n-ordinal: func(s: term) -> bool;
+  term-is-gendered: func(s: term) -> bool;
+  term-is-lexically-same: func(s: term, other: term) -> bool;
+
+  enum term-conversion-error {
+    out-of-range,
+    unknown,
+  }
+
+  variant variable {
+    standard(standard-variable),
+    number(number-variable),
+    date(date-variable),
+    name(name-variable),
+  }
+  variable-is-number-of-variable: func(s: variable) -> bool;
+}
+
+interface citationberg {
+  use citationberg-taxonomy.{
+    date-variable,
+    kind,
+    locator,
+    name-variable,
+    number-variable,
+    other-term,
+    standard-variable,
+    term,
+    term-conversion-error,
+    variable,
+  };
+
+  record affixes {
+    prefix: option<string>,
+    suffix: option<string>,
+  }
+
+  record bibliography {
+    sort: option<sort>,
+    layout: layout,
+    hanging-indent: bool,
+    second-field-align: option<second-field-align>,
+    line-spacing: s16,
+    entry-spacing: s16,
+    subsequent-author-substitute: option<string>,
+    subsequent-author-substitute-rule: subsequent-author-substitute-rule,
+    name-options: inheritable-name-options,
+  }
+  bibliography-with-layout: func(layout: layout) -> bibliography;
+
+  resource ref-choose-branch {
+    deref: func() -> choose-branch;
+  }
+  resource ref-else-branch {
+    deref: func() -> else-branch;
+  }
+  record choose {
+    if: ref-choose-branch,
+    else-if: list<ref-choose-branch>,
+    otherwise: option<ref-else-branch>,
+    delimiter: option<string>,
+  }
+  choose-branches: func(s: choose) -> list<choose-branch>;
+  choose-find-variable-element: func(s: choose, variable: variable, macros: list<csl-macro>) -> option<layout-rendering-element>;
+
+  resource ref-layout-rendering-element {
+    deref: func() -> layout-rendering-element;
+  }
+  record choose-branch {
+    disambiguate: option<bool>,
+    is-numeric: option<list<variable>>,
+    is-uncertain-date: option<list<date-variable>>,
+    locator: option<list<locator>>,
+    position: option<list<test-position>>,
+    %type: option<list<kind>>,
+    variable: option<list<variable>>,
+    match: choose-match,
+    children: list<ref-layout-rendering-element>,
+  }
+  choose-branch-test: func(s: choose-branch) -> option<choose-test>;
+
+  record citation {
+    sort: option<sort>,
+    layout: layout,
+    disambiguate-add-givenname: bool,
+    givenname-disambiguation-rule: disambiguation-rule,
+    disambiguate-add-names: bool,
+    disambiguate-add-year-suffix: bool,
+    cite-group-delimiter: option<string>,
+    collapse: option<collapse>,
+    year-suffix-delimiter: option<string>,
+    after-collapse-delimiter: option<string>,
+    near-note-distance: u32,
+    name-options: inheritable-name-options,
+  }
+  citation-default-cite-group-delimiter: func() -> string;
+  citation-with-layout: func(layout: layout) -> citation;
+  citation-get-year-suffix-delimiter: func(s: citation) -> string;
+  citation-get-after-collapse-delimiter: func(s: citation) -> string;
+  citation-default-near-note-distance: func() -> u32;
+
+  record csl-macro {
+    name: string,
+    children: list<ref-layout-rendering-element>,
+  }
+
+  record date {
+    variable: option<date-variable>,
+    form: option<date-form>,
+    parts: option<date-parts>,
+    date-part: list<date-part>,
+    formatting: formatting,
+    affixes: affixes,
+    delimiter: option<string>,
+    display: option<display>,
+    text-case: option<text-case>,
+  }
+  date-is-localized: func(s: date) -> bool;
+
+  resource date-part {
+    name: func() -> date-part-name;
+    set-name: func(v: date-part-name);
+    range-delimiter: func() -> option<string>;
+    set-range-delimiter: func(v: option<string>);
+    formatting: func() -> formatting;
+    set-formatting: func(v: formatting);
+    affixes: func() -> affixes;
+    set-affixes: func(v: affixes);
+    strip-periods: func() -> bool;
+    set-strip-periods: func(v: bool);
+    text-case: func() -> option<text-case>;
+    set-text-case: func(v: option<text-case>);
+
+    default-delimiter: static func() -> string;
+    form: func() -> date-strong-any-form;
+  }
+
+  record dependent-style {
+    info: style-info,
+    default-locale: option<locale-code>,
+    version: string,
+    parent-link: info-link,
+  }
+  type xml-result-dependent-style = result<dependent-style, xml-error>;
+  dependent-style-from-xml: func(xml: string) -> xml-result-dependent-style;
+  dependent-style-purge: func(s: dependent-style, level: purge-level);
+
+  record else-branch {
+    children: list<ref-layout-rendering-element>,
+  }
+
+  record et-al {
+    term: et-al-term,
+    formatting: formatting,
+  }
+
+  record formatting {
+    font-style: option<font-style>,
+    font-variant: option<font-variant>,
+    font-weight: option<font-weight>,
+    text-decoration: option<text-decoration>,
+    vertical-align: option<vertical-align>,
+  }
+  formatting-is-empty: func(s: formatting) -> bool;
+  formatting-apply: func(s: formatting, base: formatting) -> formatting;
+
+  record group {
+    children: list<ref-layout-rendering-element>,
+    font-style: option<font-style>,
+    font-variant: option<font-variant>,
+    font-weight: option<font-weight>,
+    text-decoration: option<text-decoration>,
+    vertical-align: option<vertical-align>,
+    prefix: option<string>,
+    suffix: option<string>,
+    delimiter: option<string>,
+    display: option<display>,
+  }
+
+  record independent-style {
+    info: style-info,
+    default-locale: option<locale-code>,
+    version: string,
+    citation: citation,
+    bibliography: option<bibliography>,
+    settings: independent-style-settings,
+    macros: list<csl-macro>,
+    locale: option<locale>,
+  }
+  type xml-result-independent-style = result<independent-style, xml-error>;
+  independent-style-from-xml: func(xml: string) -> xml-result-independent-style;
+  independent-style-purge: func(s: independent-style, level: purge-level);
+
+  record independent-style-settings {
+    class: style-class,
+    initialize-with-hyphen: bool,
+    page-range-format: option<page-range-format>,
+    demote-non-dropping-particle: demote-non-dropping-particle,
+    options: inheritable-name-options,
+  }
+  independent-style-settings-default-initialize-with-hyphen: func() -> bool;
+
+  resource info-link {}
+
+  resource inheritable-name-options {}
+
+  resource label {}
+
+  resource layout {}
+
+  resource license {}
+
+  resource local-string {}
+
+  resource locale {}
+
+  resource locale-code {}
+
+  resource locale-file {}
+
+  resource locale-info {}
+
+  resource locale-options {}
+
+  resource localized-term {}
+
+  resource name {}
+
+  resource name-options {}
+
+  resource name-part {}
+
+  resource names {}
+
+  resource number {}
+
+  resource ordinal-lookup {}
+
+  resource sort {}
+
+  resource style-attribution {}
+
+  resource style-info {}
+
+  resource substitute {}
+
+  resource terms {}
+
+  resource text {}
+
+  resource timestamp {}
+
+  resource variableless-label {}
+
+  variant base-language {
+    iso6391(tuple<u8, u8>),
+    iana(string),
+    unregistered(tuple<u8, u8, u8, u8, u8, u8, u8, u8>),
+  }
+  base-language-as-str: func(s: base-language) -> string;
+
+  enum choose-match {
+    all,
+    any,
+    none
+  }
+  choose-match-test: func(s: choose-match, tests: list<bool>) -> bool;
+
+  variant choose-test {
+    disambiguate,
+    is-numeric(list<variable>),
+    is-uncertain-date(list<date-variable>),
+    locator(list<locator>),
+    position(list<test-position>),
+    %type(list<kind>),
+    variable(list<variable>),
+  }
+
+  enum citation-format {
+    author-date,
+    author,
+    numeric,
+    label,
+    note,
+  }
+
+  enum collapse {
+    citation-number,
+    year,
+    year-suffix,
+    year-suffix-ranged,
+  }
+
+  enum date-any-form {
+    numeric,
+    numeric-leading-zeros,
+    ordinal,
+    long,
+    short,
+  }
+  date-any-form-form-for-day: func(s: date-any-form) -> date-day-form;
+  date-any-form-form-for-month: func(s: date-any-form) -> date-month-form;
+  date-any-form-form-for-year: func(s: date-any-form) -> long-short-form;
+
+  enum date-day-form {
+    numeric,
+    numeric-leading-zeros,
+    ordinal,
+  }
+
+  enum date-form {
+    numeric,
+    text,
+  }
+
+  enum date-month-form {
+    long,
+    short,
+    numeric,
+    numeric-leading-zeros,
+  }
+
+  enum date-part-name {
+    day,
+    month,
+    year,
+  }
+
+  enum date-parts {
+    year,
+    year-month,
+    year-month-day,
+  }
+  date-parts-has-month: func(s: date-parts) -> bool;
+  date-parts-has-day: func(s: date-parts) -> bool;
+
+  variant date-strong-any-form {
+    day(date-day-form),
+    month(date-month-form),
+    year(long-short-form),
+  }
+  date-strong-any-form-form-for-name: func(name: date-part-name, form: option<date-any-form>) -> date-strong-any-form;
+
+  enum delimiter-behavior {
+    contextual,
+    after-inverted-name,
+    always,
+    never,
+  }
+
+  enum demote-non-dropping-particle {
+    never,
+    sort-only,
+    display-and-sort,
+  }
+
+  enum disambiguation-rule {
+    all-names,
+    all-names-with-initials,
+    primary-name,
+    primary-name-with-initials,
+    by-cite,
+  }
+  disambiguation-rule-allows-full-first-names: func(s: disambiguation-rule) -> bool;
+  disambiguation-rule-allows-multiple-names: func(s: disambiguation-rule) -> bool;
+
+  enum display {
+    block,
+    left-margin,
+    right-inline,
+    indent,
+  }
+
+  enum et-al-term {
+    et-al,
+    and-others,
+  }
+
+  enum field {
+    anthropology,
+    astronomy,
+    biology,
+    botany,
+    chemistry,
+    communications,
+    engineering,
+    generic-base,
+    geography,
+    geology,
+    history,
+    humanities,
+    law,
+    linguistics,
+    literature,
+    math,
+    medicine,
+    philosophy,
+    physics,
+    political-science,
+    psychology,
+    science,
+    social-science,
+    sociology,
+    theology,
+    zoology,
+  }
+
+  enum font-style {
+    normal,
+    italic,
+  }
+
+  enum font-variant {
+    normal,
+    small-caps,
+  }
+
+  enum font-weight {
+    normal,
+    bold,
+    light,
+  }
+
+  enum grammar-gender {
+    feminine,
+    masculine,
+  }
+
+  enum info-link-rel {
+    zelf,
+    template,
+    documentation,
+    independent-parent,
+  }
+
+  enum label-pluralize {
+    contextual,
+    always,
+    never,
+  }
+
+  variant layout-rendering-element {
+    text(text),
+    date(date),
+    number(number),
+    names(names),
+    label(label),
+    group(group),
+    choose(choose),
+  }
+  layout-rendering-element-find-variable-element: func(s: layout-rendering-element, variable: variable, macros: list<csl-macro>) -> option<layout-rendering-element>;
+
+  enum long-short-form {
+    long,
+    short,
+  }
+
+  enum name-and {
+    text,
+    symbol,
+  }
+
+  enum name-as-sort-order {
+    first,
+    all,
+  }
+
+  enum name-form {
+    long,
+    short,
+    count,
+  }
+
+  enum name-label-position {
+    after-name,
+    before-name,
+  }
+
+  enum name-part-name {
+    given,
+    family,
+  }
+
+  variant names-child {
+    name(name),
+    et-al(et-al),
+    label(variableless-label),
+    substitute(substitute),
+  }
+
+  enum number-form {
+    numeric,
+    ordinal,
+    long-ordinal,
+    roman,
+  }
+
+  enum ordinal-match {
+    last-digit,
+    last-two-digits,
+    whole-number,
+  }
+
+  enum page-range-format {
+    chicago15,
+    chicago16,
+    expanded,
+    minimal,
+    minimal-two,
+  }
+  type range = tuple<s32, s32>;
+  type write = string;
+  type error = string;
+  page-range-format-format: func(s: page-range-format, range: range, buf: write, separator: option<string>) -> result<_, error>;
+
+  enum purge-level {
+    basic,
+    full,
+  }
+
+  variant rendering-element {
+    layout(layout),
+    other(layout-rendering-element),
+  }
+
+  enum second-field-align {
+    margin,
+    flush,
+  }
+
+  enum sort-direction {
+    ascending,
+    descending,
+  }
+
+  record sort-key-variable {
+    variable: variable,
+    sort-direction: sort-direction,
+  }
+  record sort-key-macro-name {
+    name: string,
+    names-min: option<u32>,
+    names-use-first: option<u32>,
+    names-use-last: option<bool>,
+    sort-direction: sort-direction,
+  }
+  variant sort-key {
+    variable(sort-key-variable),
+    macro-name(sort-key-macro-name),
+  }
+  sort-key-sort-direction: func(s: sort-key) -> sort-direction;
+
+  variant style {
+    independent(independent-style),
+    dependent(dependent-style),
+  }
+  type xml-result-style = result<style, xml-error>;
+  type xml-result-string = result<string, xml-error>;
+  style-from-xml: func(xml: string) -> xml-result-style;
+  style-to-xml: func(s: style) -> xml-result-string;
+  style-purge: func(s: style, level: purge-level);
+  style-info2: func(s: style) -> style-info;
+
+  record style-category-citation-format {
+    format: citation-format,
+  }
+  record style-category-field {
+    field: field,
+  }
+  variant style-category {
+    citation-format(style-category-citation-format),
+    field(style-category-field),
+  }
+
+  enum style-class {empty}
+
+  enum style-validation-error {empty}
+
+  enum subsequent-author-substitute-rule {empty}
+
+  enum term-form {empty}
+
+  enum test-position {empty}
+
+  enum text-case {empty}
+
+  enum text-decoration {empty}
+
+  enum text-target {empty}
+
+  enum vertical-align {empty}
+
+  type xml-error = string;
+
+  type xml-result = result<_, xml-error>;
 }
 
 world host {
   export citationberg;
+  export citationberg-taxonomy;
 }

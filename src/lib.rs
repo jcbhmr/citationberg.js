@@ -10,33 +10,9 @@ use bindings::exports::*;
 use bindings::*;
 use citationberg_rs;
 
-mod affixes;
-mod citation;
-
-pub use affixes::*;
-pub use citation::*;
+pub mod taxonomy;
 
 pub struct Component;
-
-// impl Guest for Component {
-//     //#region bibliography
-//     fn bibliography_with_layout(layout: ToDo) -> Bibliography {
-//         todo!()
-//     }
-//     //#endregion
-
-//     //#region choose
-//     fn choose_branches(s: Choose) -> Vec<ToDo> {
-//         todo!()
-//     }
-//     fn choose_find_variable_element(s: Choose, variable: ToDo, macros: Vec<ToDo>) -> Option<ToDo> {
-//         todo!()
-//     }
-//     //#endregion
-
-//     //#region choose-branch
-//     fn choose_branch_test(s: ChooseBranch) -> Option<ToDo> {
-//         todo!()
-//     }
-//     //#endregion
-// }
+impl Guest for Component {
+  
+}
