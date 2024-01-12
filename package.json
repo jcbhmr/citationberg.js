@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "setup": "rustup target add wasm32-unknown-unknown wasm32-wasi wasm32-wasi-preview1-threads",
+    "prebuild:release": "npm run build:release -ws --if-present",
+    "build:release": "tsc",
+    "prebuild": "npm run build -ws --if-present",
+    "build": "tsc",
+    "pretest": "npm run build",
+    "test": "node --test"
+  },
+	"dependencies": {
+		"citationberg-napi": "file:./packages/citationberg-napi",
+		"citationberg-wbg": "file:./packages/citationberg-wbg"
+	},
+  "workspaces": [
+    "packages/*"
+  ]
+}
