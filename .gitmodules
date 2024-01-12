@@ -1,0 +1,3 @@
+[submodule "citationberg"]
+	path = citationberg
+	url = https://github.com/typst/citationberg.git
