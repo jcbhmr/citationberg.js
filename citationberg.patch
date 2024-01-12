@@ -1,0 +1,228 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index da45320..cd090a9 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -12,13 +12,18 @@ edition = "2021"
+ exclude = ["assets/*"]
+ 
+ [features]
+-default = []
++default = ["wasm-bindgen"]
+ json = ["unscanny"] # adds support for CSL-json parsing
++wasm-bindgen = ["dep:wasm-bindgen"]
++
++[lib]
++crate-type = ["cdylib", "rlib"]
+ 
+ [dependencies]
+ quick-xml = { version = "0.28", features = ["serialize", "overlapped-lists"] }
+ serde = { version = "1.0", features = ["derive"] }
+ unscanny = { version = "0.1.0", optional = true }
++wasm-bindgen = { version = "0.2.84", optional = true }
+ 
+ [dev-dependencies]
+ ciborium = "0.2.1"
+diff --git a/src/taxonomy.rs b/src/taxonomy.rs
+index 87d0762..85f2911 100644
+--- a/src/taxonomy.rs
++++ b/src/taxonomy.rs
+@@ -1,4 +1,6 @@
+ //! CSL constants that describe entries, terms, and variables.
++#[cfg(feature = "wasm-bindgen")]
++use wasm_bindgen::prelude::*;
+ 
+ use std::fmt;
+ use std::num::IntErrorKind;
+@@ -20,6 +22,59 @@ pub enum Variable {
+     Name(NameVariable),
+ }
+ 
++#[cfg(feature = "wasm-bindgen")]
++#[wasm_bindgen]
++#[allow(missing_docs)]
++pub struct WbgVariable(#[wasm_bindgen(skip)] pub Variable);
++#[cfg(feature = "wasm-bindgen")]
++#[wasm_bindgen]
++#[allow(missing_docs)]
++impl WbgVariable {
++    #[wasm_bindgen(js_name = "Standard")]
++    pub fn new_standard(v: StandardVariable) -> WbgVariable {
++        WbgVariable(Variable::Standard(v))
++    }
++    #[wasm_bindgen(js_name = "Number")]
++    pub fn new_number(v: NumberVariable) -> WbgVariable {
++        WbgVariable(Variable::Number(v))
++    }
++    #[wasm_bindgen(js_name = "Date")]
++    pub fn new_date(v: DateVariable) -> WbgVariable {
++        WbgVariable(Variable::Date(v))
++    }
++    #[wasm_bindgen(js_name = "Name")]
++    pub fn new_name(v: NameVariable) -> WbgVariable {
++        WbgVariable(Variable::Name(v))
++    }
++    pub fn standard(&self) -> Option<WbgVariable> {
++        match self.0 {
++            Variable::Standard(v) => Some(WbgVariable(Variable::Standard(v))),
++            _ => None,
++        }
++    }
++    pub fn number(&self) -> Option<WbgVariable> {
++        match self.0 {
++            Variable::Number(v) => Some(WbgVariable(Variable::Number(v))),
++            _ => None,
++        }
++    }
++    pub fn date(&self) -> Option<WbgVariable> {
++        match self.0 {
++            Variable::Date(v) => Some(WbgVariable(Variable::Date(v))),
++            _ => None,
++        }
++    }
++    pub fn name(&self) -> Option<WbgVariable> {
++        match self.0 {
++            Variable::Name(v) => Some(WbgVariable(Variable::Name(v))),
++            _ => None,
++        }
++    }
++    pub fn is_number_of_variable(&self) -> bool {
++        self.0.clone().is_number_of_variable()
++    }
++}
++
+ impl Variable {
+     /// Check if the variable starts with `number-of-` to control contextual
+     /// label behavior.
+@@ -44,6 +99,7 @@ impl fmt::Display for Variable {
+ }
+ 
+ /// The set of variables with no other attributes.
++#[cfg_attr(feature = "wasm-bindgen", wasm_bindgen)]
+ #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Deserialize, Serialize)]
+ #[serde(rename_all = "kebab-case")]
+ pub enum StandardVariable {
+@@ -337,6 +393,97 @@ impl fmt::Display for NumberVariable {
+     }
+ }
+ 
++#[cfg(feature = "wasm-bindgen")]
++#[wasm_bindgen]
++#[allow(missing_docs)]
++pub struct WbgNumberVariable(#[wasm_bindgen(skip)] pub NumberVariable);
++#[cfg(feature = "wasm-bindgen")]
++#[wasm_bindgen]
++#[allow(missing_docs)]
++impl WbgNumberVariable {
++    #[wasm_bindgen(js_name = "ChapterNumber")]
++    pub fn new_chapter_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::ChapterNumber)
++    }
++    #[wasm_bindgen(js_name = "CitationNumber")]
++    pub fn new_citation_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::CitationNumber)
++    }
++    #[wasm_bindgen(js_name = "CollectionNumber")]
++    pub fn new_collection_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::CollectionNumber)
++    }
++    #[wasm_bindgen(js_name = "Edition")]
++    pub fn new_edition() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Edition)
++    }
++    #[wasm_bindgen(js_name = "FirstReferenceNoteNumber")]
++    pub fn new_first_reference_note_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::FirstReferenceNoteNumber)
++    }
++    #[wasm_bindgen(js_name = "Issue")]
++    pub fn new_issue() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Issue)
++    }
++    #[wasm_bindgen(js_name = "Locator")]
++    pub fn new_locator() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Locator)
++    }
++    #[wasm_bindgen(js_name = "Number")]
++    pub fn new_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Number)
++    }
++    #[wasm_bindgen(js_name = "NumberOfPages")]
++    pub fn new_number_of_pages() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::NumberOfPages)
++    }
++    #[wasm_bindgen(js_name = "NumberOfVolumes")]
++    pub fn new_number_of_volumes() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::NumberOfVolumes)
++    }
++    #[wasm_bindgen(js_name = "Page")]
++    pub fn new_page() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Page)
++    }
++    #[wasm_bindgen(js_name = "PageFirst")]
++    pub fn new_page_first() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::PageFirst)
++    }
++    #[wasm_bindgen(js_name = "PartNumber")]
++    pub fn new_part_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::PartNumber)
++    }
++    #[wasm_bindgen(js_name = "PrintingNumber")]
++    pub fn new_printing_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::PrintingNumber)
++    }
++    #[wasm_bindgen(js_name = "Section")]
++    pub fn new_section() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Section)
++    }
++    #[wasm_bindgen(js_name = "SupplementNumber")]
++    pub fn new_supplement_number() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::SupplementNumber)
++    }
++    #[wasm_bindgen(js_name = "Version")]
++    pub fn new_version() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Version)
++    }
++    #[wasm_bindgen(js_name = "Volume")]
++    pub fn new_volume() -> WbgNumberVariable {
++        WbgNumberVariable(NumberVariable::Volume)
++    }
++    pub fn chapter_number(&self) -> Option<u32> {
++        match self.0 {
++            NumberVariable::ChapterNumber => Some(0),
++            _ => None,
++        }
++    }
++    pub fn is_number_of_variable(&self) -> bool {
++        self.clone().is_number_of_variable()
++    }
++}
++
+ impl NumberVariable {
+     /// Check if the variable starts with `number-of-` to control contextual
+     /// label behavior.
+@@ -358,6 +505,7 @@ impl From<NumberVariable> for Term {
+ }
+ 
+ /// Variables that can be formatted as dates.
++#[cfg_attr(feature = "wasm-bindgen", wasm_bindgen)]
+ #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Deserialize, Serialize)]
+ #[serde(rename_all = "kebab-case")]
+ pub enum DateVariable {
+@@ -397,6 +545,7 @@ impl fmt::Display for DateVariable {
+ }
+ 
+ /// Variables that can be formatted as names.
++#[cfg_attr(feature = "wasm-bindgen", wasm_bindgen)]
+ #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Deserialize, Serialize)]
+ #[serde(rename_all = "kebab-case")]
+ pub enum NameVariable {
+@@ -613,6 +762,10 @@ impl Term {
+     }
+ }
+ 
++#[cfg(feature = "wasm-bindgen")]
++#[wasm_bindgen]
++pub struct WbgTerm(#[wasm_bindgen(skip)] pub Term);
++
+ /// Kind of the cited item.
+ #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Deserialize, Serialize)]
+ #[serde(rename_all = "kebab-case")]

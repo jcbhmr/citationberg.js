@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "@napi-rs/cli": "^2.17.0"
-  },
-  "scripts": {
-    "build:release": "napi build --platform --release",
-    "build": "napi build --platform"
-  }
-}

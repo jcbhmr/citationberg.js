@@ -1,0 +1,4 @@
+[workspace]
+members = ["citationberg"]
+default-members = ["citationberg"]
+resolver = "2"
