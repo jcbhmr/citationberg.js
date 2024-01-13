@@ -7,8 +7,7 @@ use wasm_bindgen::prelude::*;
 pub struct SortKey(#[wasm_bindgen(skip)] pub citationberg::SortKey);
 #[wasm_bindgen]
 impl SortKey {
-    #[wasm_bindgen(js_name = "Variable")]
-    pub fn new_variable(
+    pub fn create_variable(
         SortKeyVariable {
             variable,
             sort_direction,
@@ -18,6 +17,56 @@ impl SortKey {
             variable: variable.into(),
             sort_direction: sort_direction.into(),
         })
+    }
+    pub fn create_macro_name(
+        SortKeyMacroName {
+            name,
+            names_min,
+            names_use_first,
+            names_use_last,
+            sort_direction,
+        }: SortKeyMacroName,
+    ) -> Self {
+        Self(citationberg::SortKey::MacroName {
+            name,
+            names_min,
+            names_use_first,
+            names_use_last,
+            sort_direction: sort_direction.into(),
+        })
+    }
+
+    #[wasm_bindgen(getter, js_name = "Variable")]
+    pub fn variable(&self) -> Option<SortKeyVariable> {
+        match &self.0 {
+            citationberg::SortKey::Variable {
+                variable,
+                sort_direction,
+            } => Some(SortKeyVariable {
+                variable: variable.clone().into(),
+                sort_direction: sort_direction.clone().into(),
+            }),
+            _ => None,
+        }
+    }
+    #[wasm_bindgen(getter, js_name = "MacroName")]
+    pub fn macro_name(&self) -> Option<SortKeyMacroName> {
+        match &self.0 {
+            citationberg::SortKey::MacroName {
+                name,
+                names_min,
+                names_use_first,
+                names_use_last,
+                sort_direction,
+            } => Some(SortKeyMacroName {
+                name: name.clone(),
+                names_min: names_min.clone(),
+                names_use_first: names_use_first.clone(),
+                names_use_last: names_use_last.clone(),
+                sort_direction: sort_direction.clone().into(),
+            }),
+            _ => None,
+        }
     }
 }
 

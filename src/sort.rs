@@ -9,6 +9,6 @@ pub struct Sort(#[wasm_bindgen(skip)] pub citationberg::Sort);
 impl Sort {
     #[wasm_bindgen(getter)]
     pub fn keys(&self) -> Vec<crate::SortKey> {
-        self.0.keys.iter().map(|key| key.clone().into()).collect()
+        self.0.keys.iter().map(|x| x.clone().into()).collect()
     }
 }
