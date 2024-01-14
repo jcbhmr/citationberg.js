@@ -1,9 +1,8 @@
+use crate::macros::my_parallel_enum;
 use citationberg;
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-#[derive(Clone)]
-pub enum Kind {
+my_parallel_enum!(Kind, citationberg::taxonomy::Kind, {
     Article,
     ArticleJournal,
     ArticleMagazine,
@@ -49,106 +48,4 @@ pub enum Kind {
     Thesis,
     Treaty,
     Webpage,
-}
-impl From<Kind> for citationberg::taxonomy::Kind {
-    fn from(v: Kind) -> Self {
-        match v {
-            Kind::Article => Self::Article,
-            Kind::ArticleJournal => Self::ArticleJournal,
-            Kind::ArticleMagazine => Self::ArticleMagazine,
-            Kind::ArticleNewspaper => Self::ArticleNewspaper,
-            Kind::Bill => Self::Bill,
-            Kind::Book => Self::Book,
-            Kind::Broadcast => Self::Broadcast,
-            Kind::Chapter => Self::Chapter,
-            Kind::Classic => Self::Classic,
-            Kind::Collection => Self::Collection,
-            Kind::Dataset => Self::Dataset,
-            Kind::Document => Self::Document,
-            Kind::Entry => Self::Entry,
-            Kind::EntryDictionary => Self::EntryDictionary,
-            Kind::EntryEncyclopedia => Self::EntryEncyclopedia,
-            Kind::Event => Self::Event,
-            Kind::Figure => Self::Figure,
-            Kind::Graphic => Self::Graphic,
-            Kind::Hearing => Self::Hearing,
-            Kind::Interview => Self::Interview,
-            Kind::LegalCase => Self::LegalCase,
-            Kind::Legislation => Self::Legislation,
-            Kind::Manuscript => Self::Manuscript,
-            Kind::Map => Self::Map,
-            Kind::MotionPicture => Self::MotionPicture,
-            Kind::MusicalScore => Self::MusicalScore,
-            Kind::Pamphlet => Self::Pamphlet,
-            Kind::PaperConference => Self::PaperConference,
-            Kind::Patent => Self::Patent,
-            Kind::Performance => Self::Performance,
-            Kind::Periodical => Self::Periodical,
-            Kind::PersonalCommunication => Self::PersonalCommunication,
-            Kind::Post => Self::Post,
-            Kind::PostWeblog => Self::PostWeblog,
-            Kind::Regulation => Self::Regulation,
-            Kind::Report => Self::Report,
-            Kind::Review => Self::Review,
-            Kind::ReviewBook => Self::ReviewBook,
-            Kind::Software => Self::Software,
-            Kind::Song => Self::Song,
-            Kind::Speech => Self::Speech,
-            Kind::Standard => Self::Standard,
-            Kind::Thesis => Self::Thesis,
-            Kind::Treaty => Self::Treaty,
-            Kind::Webpage => Self::Webpage,
-        }
-    }
-}
-impl From<citationberg::taxonomy::Kind> for Kind {
-    fn from(v: citationberg::taxonomy::Kind) -> Self {
-        match v {
-            citationberg::taxonomy::Kind::Article => Self::Article,
-            citationberg::taxonomy::Kind::ArticleJournal => Self::ArticleJournal,
-            citationberg::taxonomy::Kind::ArticleMagazine => Self::ArticleMagazine,
-            citationberg::taxonomy::Kind::ArticleNewspaper => Self::ArticleNewspaper,
-            citationberg::taxonomy::Kind::Bill => Self::Bill,
-            citationberg::taxonomy::Kind::Book => Self::Book,
-            citationberg::taxonomy::Kind::Broadcast => Self::Broadcast,
-            citationberg::taxonomy::Kind::Chapter => Self::Chapter,
-            citationberg::taxonomy::Kind::Classic => Self::Classic,
-            citationberg::taxonomy::Kind::Collection => Self::Collection,
-            citationberg::taxonomy::Kind::Dataset => Self::Dataset,
-            citationberg::taxonomy::Kind::Document => Self::Document,
-            citationberg::taxonomy::Kind::Entry => Self::Entry,
-            citationberg::taxonomy::Kind::EntryDictionary => Self::EntryDictionary,
-            citationberg::taxonomy::Kind::EntryEncyclopedia => Self::EntryEncyclopedia,
-            citationberg::taxonomy::Kind::Event => Self::Event,
-            citationberg::taxonomy::Kind::Figure => Self::Figure,
-            citationberg::taxonomy::Kind::Graphic => Self::Graphic,
-            citationberg::taxonomy::Kind::Hearing => Self::Hearing,
-            citationberg::taxonomy::Kind::Interview => Self::Interview,
-            citationberg::taxonomy::Kind::LegalCase => Self::LegalCase,
-            citationberg::taxonomy::Kind::Legislation => Self::Legislation,
-            citationberg::taxonomy::Kind::Manuscript => Self::Manuscript,
-            citationberg::taxonomy::Kind::Map => Self::Map,
-            citationberg::taxonomy::Kind::MotionPicture => Self::MotionPicture,
-            citationberg::taxonomy::Kind::MusicalScore => Self::MusicalScore,
-            citationberg::taxonomy::Kind::Pamphlet => Self::Pamphlet,
-            citationberg::taxonomy::Kind::PaperConference => Self::PaperConference,
-            citationberg::taxonomy::Kind::Patent => Self::Patent,
-            citationberg::taxonomy::Kind::Performance => Self::Performance,
-            citationberg::taxonomy::Kind::Periodical => Self::Periodical,
-            citationberg::taxonomy::Kind::PersonalCommunication => Self::PersonalCommunication,
-            citationberg::taxonomy::Kind::Post => Self::Post,
-            citationberg::taxonomy::Kind::PostWeblog => Self::PostWeblog,
-            citationberg::taxonomy::Kind::Regulation => Self::Regulation,
-            citationberg::taxonomy::Kind::Report => Self::Report,
-            citationberg::taxonomy::Kind::Review => Self::Review,
-            citationberg::taxonomy::Kind::ReviewBook => Self::ReviewBook,
-            citationberg::taxonomy::Kind::Software => Self::Software,
-            citationberg::taxonomy::Kind::Song => Self::Song,
-            citationberg::taxonomy::Kind::Speech => Self::Speech,
-            citationberg::taxonomy::Kind::Standard => Self::Standard,
-            citationberg::taxonomy::Kind::Thesis => Self::Thesis,
-            citationberg::taxonomy::Kind::Treaty => Self::Treaty,
-            citationberg::taxonomy::Kind::Webpage => Self::Webpage,
-        }
-    }
-}
+});

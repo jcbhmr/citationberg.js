@@ -14,6 +14,7 @@ start = []
 citationberg = "0.1.1"
 delegate = "0.12.0"
 derive_more = "0.99.17"
+duplicate = "1.0.0"
 wasm-bindgen = "0.2.84"
 
 [profile.release]

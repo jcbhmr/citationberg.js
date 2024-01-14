@@ -26,6 +26,5 @@ publish:
 clean:
 	rm -rf pkg target
 
-.PHONY: test
 test:
 	node --test --experimental-default-type=module

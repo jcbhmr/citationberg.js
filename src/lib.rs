@@ -183,4 +183,5 @@ pub use variableless_label::*;
 mod vertical_align;
 pub use vertical_align::*;
 
+mod macros;
 pub mod taxonomy;
